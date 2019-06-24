@@ -5,13 +5,16 @@ const SendTask = require('./SendTask');
 
 module.exports = class Client extends EventEmitter {
     constructor({ port, host='127.0.0.1', reconnectOnClose=true,
-    reconnectOnHasSendData=false, debug=null, checkTime=300, taskTimeout=60000 }) {
+    reconnectOnHasSendData=false, debug=null, checkTime=300,
+    taskTimeout=60000, enabledRedirect=true, encoding=null }) {
         super();
         this.uid = uuid.v4();
         this.socket = null;
         this.debug = debug ? debug(`(server [${this.uid}])`): null;
         this.checkTime = checkTime;
         this.taskTimeout = taskTimeout;
+        this.enabledRedirect = enabledRedirect;
+        this.encoding = encoding;
         this.port = port;
         this.host = host;
         this.reconnectOnClose = reconnectOnClose;
@@ -45,6 +48,14 @@ module.exports = class Client extends EventEmitter {
         });
     }
 
+    enableRedirect() {
+        this.enabledRedirect = true;
+    }
+
+    disableRedirect() {
+        this.enabledRedirect = false;
+    }
+
     drop() {
         this.reconnectOnClose = false;
         this.reconnectOnHasSendData = false;
@@ -54,6 +65,7 @@ module.exports = class Client extends EventEmitter {
     connect() {
         this.disconnect(true);
         this.socket = new net.Socket();
+        this.encoding && this.socket.setEncoding(this.encoding);
         this.socket.on('ready', () => {
             this.emit('ready');
         });
@@ -61,6 +73,7 @@ module.exports = class Client extends EventEmitter {
             this.emit('data', {
                 data,
                 uid: this.uid,
+                instance: this,
             });
         });
         this.socket.on('close', hadError => {

@@ -2,9 +2,9 @@
 
 ## Description
 
-This is a library for connecting 2 or more servers to each other by tcp.
+This is a small framework for connecting 2 or more servers to each other by tcp.
 
-The library has the function of automatic reconnection to each server, the sending queue, the lifetime of the tasks for sending.
+The framework has the function of automatic reconnection to each server, the sending queue, the lifetime of the tasks for sending.
 
 ## Installation
 
@@ -80,6 +80,8 @@ BridgeInstance.addPoint({
     reconnectOnHasSendData,
     checkTime,
     taskTimeout,
+    enabledRedirect,
+    encoding,
 })
 ```
 
@@ -92,6 +94,8 @@ BridgeInstance.addPoint({
 | `reconnectOnHasSendData` | | auto reconnect if connection is closed and clinet has data to send | `false` |
 | `checkTime` | | time to check new data for sending | `300` ms |
 | `taskTimeout` | | task lifetime (in ms), `0` for disable | `60000` |
+| `enabledRedirect` | | if false - data from this point will not be redirected | `true` |
+| `encoding` | | Set the encoding for the socket as a Readable Stream. See readable.setEncoding() for more information. | `null` |
 
 ### #`removePoint(identifier)`
 
@@ -103,16 +107,38 @@ Disconnects and removes server by identifier.
 
 ### #`sendDataToPoint(identifier, data)`
 
-Disconnects and removes server by identifier.
+Send data to one point.
 
 | Parameter | Required | Description | Default value |
 | - | - | - | - |
 | `identifier` | `true` | Identifier of point (server) | |
 | `data` | `true` | Bytes (as in `net` library in socket.send function) | |
 
+### #`getPoint(identifier)` -> point instance
+
+Getting one point instance.
+
+| Parameter | Required | Description | Default value |
+| - | - | - | - |
+| `identifier` | `true` | Identifier of point (server) | |
+
+## Client (Point) functions and properties
+###  #`enableRedirect()`
+
+Data from this point will be redirected.
+
+###  #`disableRedirect()`
+
+Data from this point will not be redirected.
+
+### #`on('data', callback)` – event, triggered if data will be received
+### #`on('ready')` – event, triggered if connection is activated
+
+### property `.connected` – true, if connection to server is active
+
 ## More examples
 
-### 4 servers with debug
+### 4 servers with debug and encoding **UTF8**
 
 ```javascript
 const debug = require('debug');
@@ -120,24 +146,37 @@ const BridgeClass = require('tcp-bridge');
 const Bridge = new BridgeClass(debug);
 
 const firstUid = Bridge.addPoint({
-    port: 2020
+    port: 2020,
+    encoding: 'utf8',
 });
 Bridge.addPoint({
     port: 3030,
     reconnectOnClose: false,
     reconnectOnHasSendData: true,
+    encoding: 'utf8',
 });
 Bridge.addPoint({
-    port: 4040
+    port: 4040,
+    encoding: 'utf8',
 });
 Bridge.addPoint({
-    port: 5050
+    port: 5050,
+    encoding: 'utf8',
 });
 
 Bridge.removePoint(firstUid);
 
-Bridge.addPoint({
-    port: 6060
+const lastUid = Bridge.addPoint({
+    port: 6060,
+    encoding: 'utf8',
+});
+
+const point = Bridge.getPoint(lastUid);
+point.on('ready', data => {
+    console.log('READY');
+});
+point.on('data', data => {
+    console.log('DATA', data);
 });
 
 ```
