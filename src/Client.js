@@ -9,8 +9,8 @@ module.exports = class Client extends EventEmitter {
         super();
         this.uid = uuid.v4();
         this.socket = null;
-        this.debug = debug ? debug(`server [${this.uid}]`): null;
-        this.latency = latency;
+        this.debug = debug ? debug(`(server [${this.uid}])`): null;
+        this.checkTime = checkTime;
         this.taskTimeout = taskTimeout;
         this.port = port;
         this.host = host;
@@ -124,7 +124,7 @@ module.exports = class Client extends EventEmitter {
         this.clearLoop();
         this.loop = setTimeout(() => {
             this.queueLoop();
-        }, this.latency);
+        }, this.checkTime);
     }
 
     clearLoop() {

@@ -21,7 +21,8 @@ npm install tcp-bridge
 
 For a simple connection of two servers on localhost, you can do this:
 ```javascript
-const Bridge = new require('tcp-bridge')();
+const BridgeClass = require('tcp-bridge');
+const Bridge = new BridgeClass();
 Bridge.addPoint({
     port: 2020
 });
@@ -38,13 +39,8 @@ All data from server 1 will be sent to server 2. All data from server 2 will be 
 `require('tcp-bridge')` returns constructor of `Bridge` class.
 To create new instance of `Bridge` you can do this:
 ```javascript
-const Bridge = require('tcp-bridge');
-const BridgeInstance = new Bridge();
-```
-
-or this:
-```javascript
-const Bridge = new require('tcp-bridge')();
+const BridgeClass = require('tcp-bridge');
+const Bridge = new BridgeClass();
 ```
 
 For debugging you can use [**debug** npm package](https://www.npmjs.com/package/debug) or with same functionality.
@@ -59,9 +55,9 @@ npm install debug
 ```
 then code:
 ```javascript
-const Bridge = require('tcp-bridge');
+const BridgeClass = require('tcp-bridge');
 const debug = require('debug');
-const BridgeInstance = new Bridge(debug);
+const Bridge = new BridgeClass(debug);
 ```
 and run script with debug env variable, ex.:
 ```
@@ -120,7 +116,9 @@ Disconnects and removes server by identifier.
 
 ```javascript
 const debug = require('debug');
-const Bridge = new require('tcp-bridge')(debug);
+const BridgeClass = require('tcp-bridge');
+const Bridge = new BridgeClass(debug);
+
 const firstUid = Bridge.addPoint({
     port: 2020
 });

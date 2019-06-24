@@ -4,11 +4,11 @@ module.exports = class Bridge {
     constructor(debug=null) {
         this.points = [];
         this.debugOrig = debug;
-        this.debug = debug ? debug('Bridge'): null;
+        this.debug = debug ? debug('(Bridge)'): null;
     }
 
     addPoint(params) {
-        const client = new Client({debugOrig, ...params});
+        const client = new Client({debug: this.debugOrig, ...params});
         this.points.push(client);
         this.init();
         return client.uid;
@@ -30,6 +30,7 @@ module.exports = class Bridge {
     removePoint(uid) {
         const i = this.findPoint(uid);
         if (i > -1) {
+            this.log('Removing point %s', uid);
             const point = this.points[i];
             point.drop();
             this.points.splice(i, 1);
@@ -39,6 +40,7 @@ module.exports = class Bridge {
     sendDataToPoint(uid, data) {
         const i = this.findPoint(uid);
         if (i > -1) {
+            this.log('Custom sending to %s', uid);
             this.points[i].send(data);
         }
     }
