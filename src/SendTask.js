@@ -5,6 +5,6 @@ module.exports = class SendTask {
     }
 
     actual(limit) {
-        return (Date.now() - this.createdAt) <= limit;
+        return limit === 0 || (Date.now() - this.createdAt) <= limit;
     }
 }

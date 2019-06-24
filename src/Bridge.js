@@ -3,12 +3,15 @@ const Client = require('./Client');
 module.exports = class Bridge {
     constructor(debug=null) {
         this.points = [];
+        this.debugOrig = debug;
         this.debug = debug ? debug('Bridge'): null;
     }
 
     addPoint(params) {
-        this.points.push(new Client(params));
+        const client = new Client({debugOrig, ...params});
+        this.points.push(client);
         this.init();
+        return client.uid;
     }
 
     init() {
@@ -17,6 +20,26 @@ module.exports = class Bridge {
                 this.points[i].on('data', this.dataCallback);
                 this.points[i].emit('init');
             }
+        }
+    }
+
+    findPoint(uid) {
+        return this.points.findIndex(x => x.uid === uid)
+    }
+
+    removePoint(uid) {
+        const i = this.findPoint(uid);
+        if (i > -1) {
+            const point = this.points[i];
+            point.drop();
+            this.points.splice(i, 1);
+        }
+    }
+
+    sendDataToPoint(uid, data) {
+        const i = this.findPoint(uid);
+        if (i > -1) {
+            this.points[i].send(data);
         }
     }
 

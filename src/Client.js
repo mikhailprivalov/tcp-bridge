@@ -5,7 +5,7 @@ const SendTask = require('./SendTask');
 
 module.exports = class Client extends EventEmitter {
     constructor({ port, host='127.0.0.1', reconnectOnClose=true,
-    reconnectOnHasSendData=false, debug=null, latency=300, taskTimeout=60000 }) {
+    reconnectOnHasSendData=false, debug=null, checkTime=300, taskTimeout=60000 }) {
         super();
         this.uid = uuid.v4();
         this.socket = null;
@@ -43,6 +43,12 @@ module.exports = class Client extends EventEmitter {
             this.init = true;
             this.connect();
         });
+    }
+
+    drop() {
+        this.reconnectOnClose = false;
+        this.reconnectOnHasSendData = false;
+        this.disconnect(true);
     }
 
     connect() {

@@ -1,7 +1,7 @@
 {
   "name": "tcp-bridge",
-  "version": "1.0.2",
-  "description": "Server to server(s) bridge",
+  "version": "1.1.0",
+  "description": "Server to server(s) tcp bridge with automatic reconnection to each server, the sending queue, the lifetime of the tasks for sending",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/moodpulse/tcp-bridge.git"
