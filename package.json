@@ -5,7 +5,7 @@
   "main": "index.js",
   "author": "Mikhail Privalov",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "dependencies": {
     "debug": "^4.1.1",
     "uuid": "^3.3.2"
