@@ -3,7 +3,7 @@ const Client = require('./Client');
 module.exports = class Bridge {
     constructor(debug=null) {
         this.points = [];
-        this.debug = debug;
+        this.debug = debug ? debug('Bridge'): null;
     }
 
     addPoint(params) {
