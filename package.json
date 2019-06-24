@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Server to server bridge",
   "main": "index.js",
-  "author": "Mikhail Privalov",
+  "author": "Mikhail Privalov <n5250@yandex.ru>",
   "license": "MIT",
   "private": false,
   "dependencies": {
