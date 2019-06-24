@@ -1,7 +1,25 @@
 {
   "name": "tcp-bridge",
-  "version": "1.0.1",
-  "description": "Server to server bridge",
+  "version": "1.0.2",
+  "description": "Server to server(s) bridge",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moodpulse/tcp-bridge.git"
+  }, 
+  "files": [
+    "src",
+    "index.js"
+  ],
+  "keywords": [
+    "tcp",
+    "bridge",
+    "module",
+    "node",
+    "javascript"
+  ],
+  "bugs": {
+    "url": "https://github.com/moodpulse/tcp-bridge/issues"
+  },
   "main": "index.js",
   "author": "Mikhail Privalov <n5250@yandex.ru>",
   "license": "MIT",
