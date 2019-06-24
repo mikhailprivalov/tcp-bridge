@@ -1,5 +1,5 @@
-const Bridge = require('./Bridge');
-const Client = require('./Client');
+const Bridge = require('./src/Bridge');
+const Client = require('./src/Client');
 
 // const debug = require('debug');
 // const BridgeInstance = new Bridge(debug);
