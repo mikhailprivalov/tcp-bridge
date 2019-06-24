@@ -1,0 +1,13 @@
+{
+  "name": "tcp-bridge",
+  "version": "1.0.0",
+  "description": "Server to server bridge",
+  "main": "index.js",
+  "author": "Mikhail Privalov",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "debug": "^4.1.1",
+    "uuid": "^3.3.2"
+  }
+}
