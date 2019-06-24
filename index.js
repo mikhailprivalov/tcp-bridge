@@ -1,25 +1,3 @@
 const Bridge = require('./src/Bridge');
-const Client = require('./src/Client');
 
-// const debug = require('debug');
-// const BridgeInstance = new Bridge(debug);
-// BridgeInstance.addPoint({
-//     port: 8999,
-//     debug,
-//     latency: 150,
-// });
-// BridgeInstance.addPoint({
-//     port: 8899,
-//     debug,
-//     latency: 150,
-// });
-// BridgeInstance.addPoint({
-//     port: 8889,
-//     debug,
-//     latency: 150,
-// });
-
-module.exports = {
-    Bridge,
-    Client,
-};
+module.exports = require('./src/Bridge')
